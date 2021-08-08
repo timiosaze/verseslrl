@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\VerseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('index');
 });
-
-Route::get('/verses', function () {
-    return view('app.index');
-})->middleware(['auth'])->name('index');
-
+Route::get('/verses', [VerseController::class, 'index']);
+Route::post('/verses', [VerseController::class, 'store'])->name('verses.store');
+Route::get('/verses/{id}/edit', [VerseController::class, 'edit'])->name('verses.edit');
+Route::put('/verses/{id}', [VerseController::class, 'update'])->name('verses.update');
+Route::delete('/verses/{id}', [VerseController::class, 'destroy'])->name('verses.destroy');
 require __DIR__.'/auth.php';

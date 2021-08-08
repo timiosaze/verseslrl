@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="{{asset('assets/styles/stylesheet.css')}}">
 </head>
 <body>
+@include('sweetalert::alert')
 	
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 	  <div class="container">
@@ -49,12 +50,13 @@
 	<div class="container-fluid">
 		<section class="myfav">
 			<p class="title">Favorite Verse</p>
-			<form action="" class="fav-form">
+			<form action="{{ route('verses.store') }}" method="POST">
+				@csrf
 				<div class="mb-3">
-				  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Verse">
+				  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Verse" name="the_verse">
 				</div>
 				<div class="mb-3">
-				  <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Content"></textarea>
+				  <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Content" name="the_content"></textarea>
 				</div>
 				<button type="submit" class="btn btn-danger float-end">Save</button>
 				<div class="clearfix"></div>
@@ -66,112 +68,49 @@
 			<p class="verses">Verses <span class="no-verses float-end">10</span></p>
 			<div class="clearfix"></div>
 			<ul>
+
+				@forelse ($verses as $verse)
+					
 				<li>
 					<div class="verse-content">
 						<div>
-							<p class="verse">Jeremiah 7:23</p>
+							<p class="verse">{{ $verse->the_verse }}</p>
 						</div>
 						<div>
-							<p class="content">But this thing commanded I them, saying, Obey my voice, and I will be your God, and ye shall be my people: and walk ye in all the ways that I have commanded you, that it may be well unto you.</p>
+							<p class="content">{{ $verse->the_content }}</p>
 						</div>
 					</div>
 					<div class="verse-actions">
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col text-center">
-									<a href="#">Edit</a>
+									<a href="{{route('verses.edit', $verse->id)}}">Edit</a>
 								</div>
 								<div class="col text-center">
-									<form action="">
-										<a href="#">Delete</a>
+									<form action="{{ route('verses.destroy', $verse->id)}}" id="my_form_{{$verse->id}}" method="POST">
+										@csrf
+										@method('DELETE')
+										<a href="javascript:{}" onclick="document.getElementById('my_form_{{$verse->id}}').submit();">Delete</a>
 									</form>
 								</div>
 							</div>
 						</div>
 					</div>
 				</li>
-				<li>
-					<div class="verse-content">
-						<div>
-							<p class="verse">Jeremiah 7:23</p>
-						</div>
-						<div>
-							<p class="content">But this thing commanded I them, saying, Obey my voice, and I will be your God, and ye shall be my people: and walk ye in all the ways that I have commanded you, that it may be well unto you.</p>
-						</div>
-					</div>
-					<div class="verse-actions">
-						<div class="container-fluid">
-							<div class="row">
-								<div class="col text-center">
-									<a href="#">Edit</a>
-								</div>
-								<div class="col text-center">
-									<form action="">
-										<a href="#">Delete</a>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
+
+				@empty
+
+    			<li>
+					<p>No verses yet.</p>
 				</li>
-				<li>
-					<div class="verse-content">
-						<div>
-							<p class="verse">Jeremiah 7:23</p>
-						</div>
-						<div>
-							<p class="content">But this thing commanded I them, saying, Obey my voice, and I will be your God, and ye shall be my people: and walk ye in all the ways that I have commanded you, that it may be well unto you.</p>
-						</div>
-					</div>
-					<div class="verse-actions">
-						<div class="container-fluid">
-							<div class="row">
-								<div class="col text-center">
-									<a href="#">Edit</a>
-								</div>
-								<div class="col text-center">
-									<form action="">
-										<a href="#">Delete</a>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</li>
-				<li>
-					<div class="verse-content">
-						<div>
-							<p class="verse">Jeremiah 7:23</p>
-						</div>
-						<div>
-							<p class="content">But this thing commanded I them, saying, Obey my voice, and I will be your God, and ye shall be my people: and walk ye in all the ways that I have commanded you, that it may be well unto you.</p>
-						</div>
-					</div>
-					<div class="verse-actions">
-						<div class="container-fluid">
-							<div class="row">
-								<div class="col text-center">
-									<a href="#">Edit</a>
-								</div>
-								<div class="col text-center">
-									<form action="">
-										<a href="#">Delete</a>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</li>
+
+				@endforelse
+
 			</ul>
 		</section>
 		<section class="myfav">
 			<div class="pagination row">
-				<div class="prev col text-center">
-					<a href="" class="btn btn-sm btn-outline-danger">Prev</a>
-				</div>
-				<div class="next col text-center">
-					<a href="" class="btn btn-sm btn-outline-danger">Next</a>
-				</div>
+				{{ $verses->links() }}
 			</div>
 		</section>
 	</div>

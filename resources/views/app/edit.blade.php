@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="{{asset('assets/styles/stylesheet.css')}}">
 </head>
 <body>
+	@include('sweetalert::alert')
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 	  <div class="container">
@@ -49,12 +50,14 @@
 	<div class="container-fluid">
 		<section class="myfav">
 			<p class="title">Edit Favorite Verse</p>
-			<form action="" class="fav-form">
+			<form action="{{ route('verses.update', $verse->id) }}" method="POST">
+				@csrf
+				@method('PUT')
 				<div class="mb-3">
-				  <input type="text" class="form-control" id="exampleFormControlInput1" value="Jeremiah 7:23">
+				  <input type="text" class="form-control" id="exampleFormControlInput1" value="{{$verse->the_verse}}" name="the_verse">
 				</div>
 				<div class="mb-3">
-				  <textarea class="form-control" id="exampleFormControlTextarea1" rows="4">But this thing commanded I them, saying, Obey my voice, and I will be your God, and ye shall be my people: and walk ye in all the ways that I have commanded you, that it may be well unto you.</textarea>
+				  <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" name="the_content">{{$verse->the_content}}</textarea>
 				</div>
 				<button type="submit" class="btn btn-danger float-end">Update</button>
 				<div class="clearfix"></div>

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Verse;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        Verse::factory()
+                ->count(5)
+                ->forUser([
+                    'name' => 'Jide Awonusi',
+                ])
+                ->create();
     }
 }
