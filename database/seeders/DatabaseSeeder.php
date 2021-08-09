@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use App\Models\Verse;
 use Illuminate\Database\Seeder;
 
@@ -14,11 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $user = User::factory()->create();
         Verse::factory()
                 ->count(5)
-                ->forUser([
-                    'name' => 'Jide Awonusi',
-                ])
+                ->for($user)
                 ->create();
     }
 }

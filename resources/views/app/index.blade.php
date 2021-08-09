@@ -65,7 +65,7 @@
 	</div>
 	<div class="container-fluid">
 		<section class="myfav">
-			<p class="verses">Verses <span class="no-verses float-end">10</span></p>
+			<p class="verses">Verses <span class="no-verses float-end">{{ $verses->count() }}</span></p>
 			<div class="clearfix"></div>
 			<ul>
 
